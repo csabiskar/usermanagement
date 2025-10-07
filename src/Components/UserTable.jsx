@@ -22,15 +22,22 @@ function UserTable() {
           setError("");
         }
 
-        const res = await axios.get("https://jsonplaceholder.typicode.com/users");
+        const res = await axios.get(
+          "https://jsonplaceholder.typicode.com/users"
+        );
         const usersWithStatus = res.data.map((user) => ({
           ...user,
           status: user.id % 3 === 0 ? STATUS_ACTIVE : STATUS_INACTIVE,
-          Role: ["Administrator", "Viewer", "Moderator"][Math.floor(Math.random() * 3)],
+          Role: ["Administrator", "Viewer", "Moderator"][
+            Math.floor(Math.random() * 3)
+          ],
         }));
 
         setUsers(usersWithStatus);
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(usersWithStatus));
+        localStorage.setItem(
+          LOCAL_STORAGE_KEY,
+          JSON.stringify(usersWithStatus)
+        );
       } catch (err) {
         console.error(err);
         setError("Error fetching users");
@@ -53,7 +60,11 @@ function UserTable() {
   const handleToggle = (userId) => {
     const updated = users.map((u) =>
       u.id === userId
-        ? { ...u, status: u.status === STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE }
+        ? {
+            ...u,
+            status:
+              u.status === STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE,
+          }
         : u
     );
     setUsers(updated);
@@ -65,7 +76,9 @@ function UserTable() {
   const handleChange = (field, value) =>
     setEditingUser((prev) => ({ ...prev, [field]: value }));
   const handleSave = () => {
-    const updated = users.map((u) => (u.id === editingUser.id ? editingUser : u));
+    const updated = users.map((u) =>
+      u.id === editingUser.id ? editingUser : u
+    );
     setUsers(updated);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
     setEditingUser(null);
@@ -79,8 +92,8 @@ function UserTable() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <div className="text-gray-700 text-sm sm:text-base">
           <p>
-            All Users: <span className="font-semibold">{users.length}</span> &nbsp; Projects:{" "}
-            <span className="font-semibold">884</span>
+            All Users: <span className="font-semibold">{users.length}</span>{" "}
+            &nbsp; Projects: <span className="font-semibold">884</span>
           </p>
         </div>
 
@@ -103,7 +116,7 @@ function UserTable() {
       {/* Responsive Table */}
       <div className="bg-white shadow-md rounded-lg overflow-x-auto">
         <table className="w-full text-sm text-left min-w-[800px]">
-          <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
+          <thead className="bg-gray-100 text-gray-600 border-amber-200 uppercase text-xs">
             <tr>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
@@ -120,7 +133,7 @@ function UserTable() {
               return (
                 <tr
                   key={user.id}
-                  className="border-t hover:bg-gray-50 transition duration-150"
+                  className="border-t border-gray-400 hover:bg-gray-50 transition duration-150"
                 >
                   <td className="px-4 py-3 font-medium text-gray-800 whitespace-nowrap">
                     {user.name}
@@ -139,7 +152,11 @@ function UserTable() {
                         isActive ? "bg-green-500" : "bg-red-500"
                       }`}
                     ></span>
-                    <span className={`${isActive ? "text-green-700" : "text-red-700"}`}>
+                    <span
+                      className={`${
+                        isActive ? "text-green-700" : "text-red-700"
+                      }`}
+                    >
                       {user.status}
                     </span>
                   </td>
